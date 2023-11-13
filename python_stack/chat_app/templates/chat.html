@@ -1,0 +1,35 @@
+<!-- chat_app/templates/chat.html -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat App</title>
+</head>
+<body>
+    <h1 id="terminalId">Terminal: Connecting...</h1>
+    <ul id="messages"></ul>
+    <input id="messageInput" autocomplete="off" /><button onclick="sendMessage()">Send</button>
+
+    <script>
+        const chatSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/chat/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            document.querySelector('#messages').innerHTML += ('<li>' + data.message + '</li>');
+        };
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value;
+            chatSocket.send(JSON.stringify({'message': message}));
+            messageInput.value = '';
+        }
+
+        // You'll need to implement the same logic for deviceName as in your Node.js app.
+    </script>
+</body>
+</html>
