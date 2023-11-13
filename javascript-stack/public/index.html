@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat App</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        let deviceName = "Nothing";
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value;
+            socket.emit('chat message', message, deviceName);
+            messageInput.value = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+
+            deviceName = prompt("Please enter your name", "User's Name");
+
+            if (deviceName) {
+                socket.emit('device connected', deviceName);
+            } else {
+                deviceName = "Unknown User";
+                socket.emit('device connected', deviceName);
+            }
+
+            // Listen for 'welcome' event to receive the terminal ID
+            socket.on('welcome', (terminalId) => {
+                // Set the terminal ID as a heading
+                document.getElementById('terminalId').innerText = `${deviceName}:`;// ${terminalId}`;
+                //document.getElementById('terminalId').style.color = data.color;
+
+                /*const terminalHeading = document.getElementById('terminalId');
+                terminalHeading.innerText = `Terminal: ${data.terminalId}`;
+                terminalHeading.style.color = data.color;*/
+            });
+
+            // Listen for the enter key in the message input
+            document.getElementById('messageInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Listen for 'chat message' events from the server
+            socket.on('chat message', (data, deviceName) => {
+                const messagesList = document.getElementById('messages');
+                // Append the message along with the terminal ID that sent it
+                messagesList.innerHTML += `<li><span style="color:${data.color}">${data.from}</span>: ${data.msg}</li>`;
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1 id="terminalId">Terminal: Connecting...</h1>
+    <ul id="messages"></ul>
+    <input id="messageInput" autocomplete="off" /><button onclick="sendMessage()">Send</button>
+</body>
+</html>
