@@ -19,7 +19,7 @@ jobs:
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'your-app-service-name'
+        app-name: 'realtime-javascript'
         slot-name: 'production'
         publish-profile: ${{ secrets.YOUR_PUBLISH_PROFILE_SECRET }}
         package: 'javascript-stack'
