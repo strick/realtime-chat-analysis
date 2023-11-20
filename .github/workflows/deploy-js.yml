@@ -1,0 +1,25 @@
+name: Deploy to Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'javascript-stack/*'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v2
+
+    # Add steps for building/testing your app if necessary
+
+    - name: 'Deploy to Azure Web App'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'your-app-service-name'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.YOUR_PUBLISH_PROFILE_SECRET }}
+        package: 'javascript-stack'
