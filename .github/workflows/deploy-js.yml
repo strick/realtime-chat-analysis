@@ -21,5 +21,5 @@ jobs:
       with:
         app-name: 'realtime-javascript'
         slot-name: 'production'
-        publish-profile: ${{ secrets.YOUR_PUBLISH_PROFILE_SECRET }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_JS }}
         package: 'javascript-stack'
