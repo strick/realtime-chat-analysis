@@ -1,3 +1,4 @@
+# my reqs
 Django>=3.0,<4.0
 channels>=3.0,<4.0
 #channels_redis>=3.0,<4.0
