@@ -16,13 +16,11 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8' # Use the Python version that matches your development environment
+        python-version: '3.8'
 
     - name: Install Python dependencies
       run: |
-        cd python_stack # Navigate to your Python app directory
-        python -m venv venv
-        source venv/bin/activate
+        cd python_stack
         pip install -r requirements.txt
 
     # Add additional steps for building/testing if necessary
