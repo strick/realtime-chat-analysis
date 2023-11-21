@@ -1,0 +1,36 @@
+name: Deploy to Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'python_stack/*'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8' # Use the Python version that matches your development environment
+
+    - name: Install Python dependencies
+      run: |
+        cd python_stack # Navigate to your Python app directory
+        python -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+
+    # Add additional steps for building/testing if necessary
+
+    - name: 'Deploy to Azure Web App'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'realtime-python'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PY }}
+        package: python_stack # The directory path to deploy
