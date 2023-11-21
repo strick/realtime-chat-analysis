@@ -22,7 +22,7 @@ jobs:
       run: |
         cd python_stack # Navigate to your Python app directory
         python -m venv venv
-        #source venv/bin/activate
+        source venv/bin/activate
         pip install -r requirements.txt
 
     # Add additional steps for building/testing if necessary
