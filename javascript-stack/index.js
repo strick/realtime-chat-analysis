@@ -37,7 +37,7 @@ io.on('connection', (socket) => {
         console.log(`Terminal ${socket.terminalId} received message: ${msg}`);
 
         // Broadcast the received message to all connected clients, along with the terminal IDs
-        io.emit('chat message', { msg, from: deviceName, color:color });
+        io.emit('chat message', { msg });//, from: deviceName, color:color });
     });
 
     // Handle when a user disconnects
