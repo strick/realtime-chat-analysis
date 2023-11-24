@@ -8,9 +8,9 @@
 
         let deviceName = "Nothing";
 
-        function sendMessage() {
+        function sendMessage(msg) {
             const messageInput = document.getElementById('messageInput');
-            const message = messageInput.value;
+            const message = msg || messageInput.value;
             socket.emit('chat message', message, deviceName);
             messageInput.value = '';
         }
@@ -48,11 +48,21 @@
                 messagesList.innerHTML += `<li>${data.msg}</li>`;
             });
         });
+
+        function runSimulation(){
+            // Send 100 messages
+            for (let i = 1; i <= 100; i++) {
+                const message = `Message ${i}`;
+                sendMessage(message);
+            }
+        }
+
     </script>
 </head>
 <body>
     <h1 id="terminalId">Terminal: Connecting...</h1>
     <ul id="messages"></ul>
     <input id="messageInput" autocomplete="off" /><button onclick="sendMessage()">Send</button>
+    <button onclick="runSimulation()">Run Simulation</button>
 </body>
 </html>
