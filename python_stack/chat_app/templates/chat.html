@@ -11,6 +11,8 @@
     <h1 id="terminalId">Terminal: Connecting...</h1>
     <ul id="messages"></ul>
     <input id="messageInput" autocomplete="off" /><button onclick="sendMessage()">Send</button>
+    <input id="simulationRuns" value="1" />
+    <button onclick="runSimulation(document.getElementById('simulationRuns').value)">Run Simulation</button>
 
     <script>
         const chatSocket = new WebSocket(
@@ -22,11 +24,23 @@
             document.querySelector('#messages').innerHTML += ('<li>' + data.message + '</li>');
         };
 
-        function sendMessage() {
+        function sendMessage(msg) {
             const messageInput = document.getElementById('messageInput');
-            const message = messageInput.value;
+            const message = msg || messageInput.value;
             chatSocket.send(JSON.stringify({'message': message}));
             messageInput.value = '';
+        }
+
+        function runSimulation(count){
+
+            let c = count || 1
+            // Send 100 messages
+            for(let j = 1; j <= c; j++){
+                for (let i = 1; i <= 100; i++) {
+                    const message = `Run: ${j} Message ${i}`;
+                    sendMessage(message);
+                }            
+            }
         }
 
         // You'll need to implement the same logic for deviceName as in your Node.js app.
